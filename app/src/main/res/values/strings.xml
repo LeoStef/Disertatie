@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Ransomware</string>
+    <string name="editButtonText_en">Edit</string>
+    <string name="myEditsButtonText_en">My Edits</string>
+</resources>
