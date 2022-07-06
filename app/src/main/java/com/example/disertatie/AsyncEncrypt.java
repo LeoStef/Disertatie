@@ -34,7 +34,18 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class AsyncEncrypt extends AsyncTask<String, LoadingDialog, Void> {
+public class AsyncEncrypt implements Runnable {
+
+    String generatedIV;
+    String generatedKey;
+
+public AsyncEncrypt(String generatedIV, String generatedKey){
+    this.generatedIV = generatedIV;
+    this.generatedKey = generatedKey;
+}
+
+
+
 
     public static String randomString(){
 // create a string of all characters
@@ -84,14 +95,14 @@ public class AsyncEncrypt extends AsyncTask<String, LoadingDialog, Void> {
         return result;
     }
     @Override
-    protected Void doInBackground(String... strings) {
+    public void run() {
        try {
 
            //initialize cipher
            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
            //generate random IV and key
-           String generatedIV = strings[0];
-           String generatedKey = strings[1];
+           String generatedIV = this.generatedIV;
+           String generatedKey = this.generatedKey;
            //generate iv and key based on random values
            IvParameterSpec iv = new IvParameterSpec(generatedIV.getBytes(StandardCharsets.UTF_8));
            SecretKeySpec keySpec = new SecretKeySpec(generatedKey.getBytes(StandardCharsets.UTF_8),
@@ -150,7 +161,6 @@ public class AsyncEncrypt extends AsyncTask<String, LoadingDialog, Void> {
        } catch (Exception e) {
            e.printStackTrace();
        }
-        return null;
     }
 
 }

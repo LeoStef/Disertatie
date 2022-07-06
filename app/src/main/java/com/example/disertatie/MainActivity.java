@@ -109,13 +109,12 @@ public class MainActivity extends AppCompatActivity {
         String generatedKey = randomString();
         @SuppressLint("HardwareIds") String phoneID = Settings.Secure.getString(getApplicationContext()
                 .getContentResolver(), ANDROID_ID);
-        asyncEncrypt = new AsyncEncrypt();
+        asyncEncrypt = new AsyncEncrypt(generatedIV,generatedKey);
         editButton = findViewById(R.id.editButton);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                asyncEncrypt.execute(generatedIV,generatedKey);
+                new Thread(asyncEncrypt).start();
 
                 AsyncRequestPOST asyncRequestPOST = new AsyncRequestPOST();
 
